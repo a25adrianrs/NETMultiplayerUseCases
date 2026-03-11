@@ -10,7 +10,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
     /// </summary>
     public static class MultiplayerUseCasesUtilities
     {
-        static readonly string[] s_Usernames = new string[] { "MaryDaBest", "BobTheBell", "FranklyVal", "Georgie96", "OP Morgan" };
+        static readonly string[] s_Usernames = new string[] { "MaryDaBest", "BobTheBell", "FranklyVal", "Georgie96", "OP Morgan", "AdrianR", "EsterColero", "PixelKnight", "ShadowCoder", "NovaRunner", "IronPanda" };
 
         /// <summary>
         /// Generates a random color
