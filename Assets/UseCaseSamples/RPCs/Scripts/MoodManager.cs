@@ -9,11 +9,16 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
     /// </summary>
     public class MoodManager : NetworkBehaviour
     {
+        // Prefab para mostrar el diálogo del personaje.
         [SerializeField] SpeechBubble m_SpeechBubblePrefab;
+
+        // Instancia local del globo de texto cuando se muestra el mensaje.
         SpeechBubble m_SpeechBubble;
 
         [SerializeField, Tooltip("The seconds that will elapse between data changes"), Range(2, 5)]
         float m_SecondsBetweenDataChanges;
+
+        // Cronómetro para controlar cada cuánto se envía un mensaje.
         float m_ElapsedSecondsSinceLastChange;
 
         readonly string[] s_ChatMessages = new string[]
@@ -28,7 +33,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
         {
             if (!IsOwner)
             {
-                //you don't want to send mood messages from other players, you only want to receive them
+                // Solo el jugador local envía mensajes de humor.
                 return;
             }
 
@@ -43,9 +48,8 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
         [Rpc(SendTo.Server)]
         void ServerMoodMessageReceivedRpc(string message)
         {
-            /* Here's an example of the type of operation you could do on the server to prevent malicious actions
-             * from bad actors.
-             */
+            /* El cliente envía el mensaje al servidor, que puede validar o filtrar contenido
+             * antes de reenviarlo a todos los clientes. */
             string redactedMessage = OnServerFilterBadWords(message);
             ClientMoodMessageReceivedRpc(redactedMessage);
         }
@@ -60,6 +64,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
         {
             if (!m_SpeechBubble)
             {
+                // Crea el globo de texto una sola vez y lo ancla al transform del objeto.
                 m_SpeechBubble = Instantiate(m_SpeechBubblePrefab.gameObject, Vector3.zero, Quaternion.Euler(new Vector3(45, 0, 0))).GetComponent<SpeechBubble>();
                 var positionOffsetKeeper = m_SpeechBubble.gameObject.AddComponent<PositionOffsetKeeper>();
                 positionOffsetKeeper.Initialize(transform, new Vector3(0, 3, 0));

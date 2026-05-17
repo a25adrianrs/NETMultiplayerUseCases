@@ -8,19 +8,20 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
     public class PlayerManager : NetworkBehaviour
     {
         /// <summary>
-        /// The localplayer instance
+        /// Reference estática al jugador local en ejecución.
         /// </summary>
-        /// <remarks> You could use <c>NetworkManager.Singleton.LocalClient.PlayerObject</c> if you don't want to maintain this flag,
-        /// but keep in mind that you'll also have to check that the NetworkManager is available and that a local client is running</remarks>
+        /// <remarks> Se usa para saber rápidamente cuál es el jugador local desde otros scripts.</remarks>
         public static PlayerManager s_LocalPlayer;
 
+        // Componente PlayerInput que controla el jugador local.
         [SerializeField]
         PlayerInput inputManager;
 
         public override void OnNetworkSpawn()
         {
-            /* When an Network Object is spawned, you usally want to setup some if its components
-             * so that they behave differently depending on whether this object is owned by the local player or by other clients. */
+            /* Cuando un objeto de red se crea en el juego, aquí se decide si
+             * este objeto pertenece al jugador local o a otro cliente.
+             * IsOwner es true solo para el jugador local. */
             base.OnNetworkSpawn();
             if (IsOwner)
             {
@@ -43,7 +44,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         void OnNonLocalPlayerSpawned()
         {
-            //you don't want other players to be able to control your player
+            // Los jugadores remotos no deben poder controlar este objeto localmente.
             if (inputManager)
             {
                 inputManager.enabled = false;
@@ -52,8 +53,8 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         void OnLocalPlayerSpawned()
         {
-            /* you want only the local player to be identified as such, and to have its input-related components enabled.
-             * The same concept usually applies for cameras, UI, etc...*/
+            /* El jugador local guarda una referencia estática y habilita
+             * solo sus componentes de entrada para que pueda moverse. */
             s_LocalPlayer = this;
             if (inputManager)
             {

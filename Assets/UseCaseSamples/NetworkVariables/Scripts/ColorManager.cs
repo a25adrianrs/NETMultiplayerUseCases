@@ -8,18 +8,21 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
     /// </summary>
     public class ColorManager : NetworkBehaviour
     {
-        /// <summary>
-        /// The NetworkVariable holding the color
-        /// </summary>
+        // NetworkVariable que sincroniza el color entre el servidor y los clientes.
         NetworkVariable<Color32> m_NetworkedColor = new NetworkVariable<Color32>();
+
+        // Material local del objeto para cambiar su color en la escena.
         Material m_Material;
 
         [SerializeField, Tooltip("The seconds that will elapse between color changes")]
         float m_SecondsBetweenColorChanges;
+
+        // Temporizador que acumula el tiempo desde el último cambio de color.
         float m_ElapsedSecondsSinceLastChange;
 
         void Awake()
         {
+            // Obtiene el material del Renderer para poder actualizar su color.
             m_Material = GetComponent<Renderer>().material;
         }
 
@@ -29,11 +32,11 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
             if (IsClient)
             {
                 /*
-                 * We call the color change method manually when we connect to ensure that our color is correctly initialized. 
-                 * This is helpful for when a client joins mid-game and needs to catch up with the current state of the game.
+                 * Cuando un cliente se une, el valor ya puede estar sincronizado en el servidor.
+                 * Llamamos manualmente para que el material local refleje el valor actual.
                  */
                 OnClientColorChanged(m_Material.color, m_NetworkedColor.Value);
-                m_NetworkedColor.OnValueChanged += OnClientColorChanged; //this will be called on the client whenever the value is changed by the server
+                m_NetworkedColor.OnValueChanged += OnClientColorChanged; // Se suscribe al evento de cambio de valor.
             }
         }
 
@@ -42,6 +45,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
             base.OnNetworkDespawn();
             if (IsClient)
             {
+                // Evita fugas quitando la suscripción cuando el objeto deja de existir.
                 m_NetworkedColor.OnValueChanged -= OnClientColorChanged;
             }
         }
@@ -50,14 +54,14 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
         {
             if (!IsSpawned)
             {
-                //the player disconnected
+                // El objeto de red ya no existe en esta instancia.
                 return;
             }
             if (!IsServer)
             {
                 /*
-                 * By default, only the server is allowed to change the value of NetworkVariables. 
-                 * This can be changed through the NetworkVariable's constructor.
+                 * Solo el servidor cambia el color en este ejemplo.
+                 * Los clientes se limitan a recibir la nueva información.
                  */
                 return;
             }
@@ -73,11 +77,13 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
 
         void OnServerChangeColor()
         {
+            // El servidor actualiza el NetworkVariable; la nueva información se replica a los clientes.
             m_NetworkedColor.Value = MultiplayerUseCasesUtilities.GetRandomColor();
         }
 
         void OnClientColorChanged(Color32 previousColor, Color32 newColor)
         {
+            // El cliente actualiza el material local cuando el valor de la red cambia.
             m_Material.color = newColor;
         }
     }

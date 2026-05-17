@@ -9,9 +9,16 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
     /// </summary>
     public class ColorManager : NetworkBehaviour
     {
+        // NetworkVariable que almacena el color sincronizado.
         NetworkVariable<Color32> m_NetworkedColor = new NetworkVariable<Color32>();
+
+        // Material local del objeto para cambiar su color.
         Material m_Material;
+
+        // Componente que detecta la proximidad del jugador.
         ProximityChecker m_ProximityChecker;
+
+        // Acción de interacción del jugador.
         InputAction interactAction;
 
         void Awake()
@@ -22,6 +29,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
 
         void Start()
         {
+            // Obtiene la acción de input que el jugador usará para cambiar el color.
             interactAction = InputSystem.actions.FindAction("Interact");
         }
 
@@ -30,8 +38,8 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
             base.OnNetworkSpawn();
             if (IsClient)
             {
-                /* in this case, you need to manually load the initial Color to catch up with the state of the network variable.
-                * This is particularly useful when re-connecting or hot-joining a session */
+                /* Cuando un cliente se une, sincroniza el color inicial y suscribe el callback
+                 * de proximidad para recibir cambios en el estado local del jugador. */
                 OnClientColorChanged(m_Material.color, m_NetworkedColor.Value);
                 m_NetworkedColor.OnValueChanged += OnClientColorChanged;
                 m_ProximityChecker.AddListener(OnClientLocalPlayerProximityStatusChanged);
@@ -43,6 +51,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
             base.OnNetworkDespawn();
             if (IsClient)
             {
+                // Limpia eventos cuando el objeto deja de existir.
                 m_NetworkedColor.OnValueChanged -= OnClientColorChanged;
                 m_ProximityChecker.RemoveListener(OnClientLocalPlayerProximityStatusChanged);
             }
@@ -52,9 +61,8 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
         {
             if (!IsClient || !m_ProximityChecker.LocalPlayerIsClose)
             {
-                /* note: in this case there's only client-side logic and therefore the script returns early.
-                 * In a real production scenario, you would have an UpdateManager running all Updates from a centralized point.
-                 * An alternative to that is to disable behaviours on client/server depending to what is/is not going to be executed on that instance. */
+                /* Se ejecuta solo en el cliente, y solo cuando el jugador local está lo suficientemente cerca.
+                 * Si no cumple esas condiciones, no hace nada. */
                 return;
             }
 
@@ -66,6 +74,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
 
         void OnClientRequestColorChange()
         {
+            // Si el botón de interacción fue presionado, el cliente solicita al servidor el cambio de color.
             ServerChangeColorRpc();
         }
 
@@ -77,6 +86,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
 
         void OnClientColorChanged(Color32 previousColor, Color32 newColor)
         {
+            // Aplica el nuevo color localmente cuando la NetworkVariable cambia.
             m_Material.color = newColor;
         }
 

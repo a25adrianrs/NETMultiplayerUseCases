@@ -13,6 +13,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
     public static class UIElementsUtils
     {
 #if UNITY_EDITOR
+        // Ruta dentro del proyecto donde se almacenan los archivos UXML para el editor.
         static readonly string k_UIFilesPathInTemplate = Path.Combine("Assets", Path.Combine("Editor", "UI"));
 
         /// <summary>
@@ -40,12 +41,14 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         /// <returns>The initialized button</returns>
         public static Button SetupButton(string buttonName, Action onClickAction, bool isEnabled, VisualElement parent, string text = "", string tooltip = "", bool showIfEnabled = true)
         {
+            // Busca el botón en el documento UI por su nombre y lo configura.
             Button button = parent.Query<Button>(buttonName);
             button.SetEnabled(isEnabled);
             button.clickable = new Clickable(() => onClickAction?.Invoke());
             button.text = text;
             button.tooltip = string.IsNullOrEmpty(tooltip) ? button.text : tooltip;
 
+            // Si el botón debe mostrarse y está habilitado, lo hace visible.
             if (showIfEnabled && isEnabled)
             {
                 Show(button);
@@ -66,6 +69,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         /// <returns>The initialized EnumField</returns>
         public static EnumField SetupEnumField<T>(string enumName, string text, EventCallback<ChangeEvent<Enum>> onValueChanged, VisualElement parent, T defaultValue) where T : Enum
         {
+            // Busca y configura un campo de Enum en la UI.
             EnumField uxmlField = parent.Q<EnumField>(enumName);
             uxmlField.label = text;
             uxmlField.Init(defaultValue);

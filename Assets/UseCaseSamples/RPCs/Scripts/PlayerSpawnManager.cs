@@ -9,13 +9,14 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
     {
         void Start()
         {
+            // Se registra el callback que decide si cada conexión es aprobada y dónde nace su jugador.
             NetworkManager.ConnectionApprovalCallback = ConnectionApprovalCallback;
         }
 
         void ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
         {
-            /* you can use this method in your project to customize one of more aspects of the player 
-             * (I.E: its start position, its character) and to perform additional validation checks. */
+            /* Este método se ejecuta cuando un cliente intenta conectarse.
+             * Aquí se puede aprobar o rechazar la conexión y personalizar la posición/objeto jugador. */
             response.Approved = true;
             response.CreatePlayerObject = true;
             response.Position = GetPlayerSpawnPosition();
@@ -23,10 +24,9 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
 
         Vector3 GetPlayerSpawnPosition()
         {
-            /*
-             * this is just an example, and you change this implementation to make players spawn on specific spawn points
-             * depending on other factors (I.E: player's team)
-             */
+            /* Esta implementación solo devuelve una posición aleatoria sencilla.
+             * En un juego real, podrías elegir puntos de spawn concretos según el equipo,
+             * el orden de llegada u otras condiciones. */
             return new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3));
         }
     }

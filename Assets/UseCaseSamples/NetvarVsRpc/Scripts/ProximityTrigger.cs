@@ -8,12 +8,14 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetVarVsRpc
     /// </summary>
     public class ProximityTrigger : MonoBehaviour
     {
+        // Objeto que se activará o desactivará según la proximidad del jugador.
         [SerializeField]
         GameObject objectToToggle;
 
         [SerializeField, Tooltip("At which distance will the trigger be triggered?")]
         float m_ActivationRadius = 1;
 
+        // Cache del transform para optimizar el cálculo en Update.
         Transform m_Transform;
 
         void Awake()
@@ -23,6 +25,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetVarVsRpc
 
         void Update()
         {
+            // Activa o desactiva el objeto en función de si el jugador local está dentro del radio.
             objectToToggle.SetActive(LocalPlayerIsCloseEnough(m_Transform.position, m_ActivationRadius));
         }
 

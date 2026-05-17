@@ -10,6 +10,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
     /// </summary>
     public static class MultiplayerUseCasesUtilities
     {
+        // Nombres de usuario usados en ejemplos aleatorios.
         static readonly string[] s_Usernames = new string[] { "MaryDaBest", "BobTheBell", "FranklyVal", "Georgie96", "OP Morgan", "AdrianR", "EsterColero", "PixelKnight", "ShadowCoder", "NovaRunner", "IronPanda" };
 
         /// <summary>
@@ -17,6 +18,10 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         /// </summary>
         /// <returns>A random RGBA color</returns>
         public static Color32 GetRandomColor() => new Color32((byte)UnityEngine.Random.Range(0, 256), (byte)UnityEngine.Random.Range(0, 256), (byte)UnityEngine.Random.Range(0, 256), 255);
+
+        /// <summary>
+        /// Returns a random username from a fixed list.
+        /// </summary>
         public static string GetRandomUsername() => s_Usernames[UnityEngine.Random.Range(0, s_Usernames.Length)];
 
         /// <summary>
@@ -33,6 +38,8 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
                 {"duck", "@%!$"},
                 {"pineapple", "$*%*!"}
             };
+
+            // Reemplaza las palabras prohibidas por caracteres enmascarados.
             return regex.Replace(input, match => replacements.ContainsKey(match.Groups[1].Value) ? replacements[match.Groups[1].Value]
                                                                                                  : match.Groups[1].Value);
         }

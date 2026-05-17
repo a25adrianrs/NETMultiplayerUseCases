@@ -11,8 +11,11 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
     /// </summary>
     struct SyncableCustomData : INetworkSerializable
     {
+        // Valores que queremos mantener sincronizados en la red.
         public int Health;
-        public FixedString128Bytes Username; //value-type version of string with fixed allocation. Strings should be avoided in general when dealing with netcode. Fixed strings are a "less bad" option.
+
+        // Versión de string con asignación fija que es más eficiente para el netcode.
+        public FixedString128Bytes Username;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -26,11 +29,10 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
     /// </summary>
     public class CharacterManager : NetworkBehaviour
     {
-        /// <summary>
-        /// The NetworkVariable holding the custom data to synchronize.
-        /// </summary>
-        NetworkVariable<SyncableCustomData> m_SyncedCustomData = new NetworkVariable<SyncableCustomData>(writePerm: NetworkVariableWritePermission.Owner); //you can adjust who can write to it with parameters
+        // NetworkVariable que sincroniza una estructura compleja de datos.
+        NetworkVariable<SyncableCustomData> m_SyncedCustomData = new NetworkVariable<SyncableCustomData>(writePerm: NetworkVariableWritePermission.Owner);
 
+        // UI que muestra la barra de salud y el nombre.
         [SerializeField] Image m_HealthBarImage;
         [SerializeField] TMP_Text m_UsernameLabel;
 
@@ -44,11 +46,11 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
             if (IsClient)
             {
                 /*
-                 * We call the color change method manually when we connect to ensure that our color is correctly initialized.
-                 * This is helpful for when a client joins mid-game and needs to catch up with the current state of the game.
+                 * Sincroniza de inmediato el estado de salud y nombre cuando el cliente se une.
+                 * Esto permite que el UI tenga el valor correcto incluso si se une tarde.
                  */
                 OnClientCustomDataChanged(m_SyncedCustomData.Value, m_SyncedCustomData.Value);
-                m_SyncedCustomData.OnValueChanged += OnClientCustomDataChanged; //this will be called on the client whenever the value is changed by the server
+                m_SyncedCustomData.OnValueChanged += OnClientCustomDataChanged;
             }
         }
 
@@ -65,15 +67,15 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
         {
             if (!IsSpawned)
             {
-                //the player disconnected
+                // El objeto de red ya no está activo, no hay que actualizar.
                 return;
             }
 
             if (!IsServer)
             {
                 /*
-                 * By default, only the server is allowed to change the value of NetworkVariables.
-                 * This can be changed through the NetworkVariable's constructor.
+                 * El servidor es el único que escribe datos en este ejemplo.
+                 * Los clientes reciben los cambios via NetworkVariable.
                  */
                 return;
             }
@@ -90,6 +92,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
 
         void OnServerChangeData()
         {
+            // El servidor actualiza la estructura completa de datos sincronizados.
             m_SyncedCustomData.Value = new SyncableCustomData
             {
                 Health = Random.Range(10, 101),
@@ -99,9 +102,10 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
 
         void OnClientHealthChanged(int previousHealth, int newHealth)
         {
-            m_HealthBarImage.rectTransform.localScale = new Vector3((float)newHealth / 100.0f, 1);//(float)newHealth / 100.0f;
+            // Ajusta el ancho de la barra de salud según el porcentaje.
+            m_HealthBarImage.rectTransform.localScale = new Vector3((float)newHealth / 100.0f, 1);
             OnClientUpdateHealthBarColor(newHealth);
-            //note: you could use the previousHealth to play a healing/damage animation
+            // El previousHealth podría servir para reproducir una animación de daño o curación.
         }
 
         void OnClientUpdateHealthBarColor(int newHealth)
@@ -114,11 +118,13 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
 
         void OnClientUsernameChanged(string newUsername)
         {
+            // Muestra el nombre de usuario actualizado en la UI.
             m_UsernameLabel.text = newUsername;
         }
 
         void OnClientCustomDataChanged(SyncableCustomData previousValue, SyncableCustomData newValue)
         {
+            // Actualiza tanto la barra de salud como el nombre cuando cambia el valor sincronizado.
             OnClientHealthChanged(previousValue.Health, newValue.Health);
             OnClientUsernameChanged(newValue.Username.ToString());
         }

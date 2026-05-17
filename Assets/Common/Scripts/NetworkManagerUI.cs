@@ -15,6 +15,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         const string k_DefaultServerListenAddress = "0.0.0.0"; //note: this is not safe for real world usage and would limit you to IPv4-only addresses, but this goes out the scope of this sample.
         const ushort k_DefaultPort = 7979;
 
+        // Raíz del documento UI que contiene todos los elementos de la ventana.
         VisualElement m_Root;
         TextField m_AddressInputField;
         TextField m_PortInputField;
@@ -27,13 +28,18 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         [SerializeField]
         string m_SelectionScreenSceneName;
+
+        // Overlay que se muestra cuando el juego está ejecutándose únicamente como servidor.
         [SerializeField]
         GameObject m_ServerOnlyOverlay;
 
         void Awake()
         {
+            // Busca el UIDocument asociado y obtiene la raíz para acceder a los controles.
             var uiDocument = GetComponent<UIDocument>();
             m_Root = uiDocument.rootVisualElement;
+
+            // Configura los campos de entrada y botones de la UI.
             m_AddressInputField = UIElementsUtils.SetupStringField("IPAddressField", string.Empty, k_DefaultIP, OnAddressChanged, m_Root);
             m_PortInputField = UIElementsUtils.SetupStringField("PortField", string.Empty, k_DefaultPort.ToString(), OnPortChanged, m_Root);
             m_ServerButton = UIElementsUtils.SetupButton("ServerButton", StartServer, true, m_Root, "Server", "Starts the Server");
@@ -41,16 +47,19 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
             m_ClientButton = UIElementsUtils.SetupButton("ClientButton", StartClient, true, m_Root, "Client", "Starts the Client");
             m_DisconnectButton = UIElementsUtils.SetupButton("DisconnectButton", Disconnect, false, m_Root, "Disconnect", "Disconnects participant from session");
             UIElementsUtils.SetupButton("QuitSceneButton", QuitScene, true, m_Root, "Quit Scene", "Quits scene and brings you back to the scene selection screen");
+
             m_Buttons = new Button[] { m_ServerButton, m_HostButton, m_ClientButton };
         }
 
         void Start()
         {
+            // Oculta el overlay de servidor al inicio de la escena.
             m_ServerOnlyOverlay.gameObject.SetActive(false);
         }
 
         void StartServer()
         {
+            // Actualiza la dirección y puerto antes de iniciar la sesión como servidor.
             SetNetworkPortAndAddress(ushort.Parse(m_PortInputField.value), m_AddressInputField.value, k_DefaultServerListenAddress);
             NetworkManager.Singleton.StartServer();
             EnableAndHighlightButtons(m_ServerButton, false);
@@ -76,6 +85,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         void Disconnect()
         {
+            // Detiene toda la sesión de red y vuelve a habilitar los botones de inicio.
             NetworkManager.Singleton.Shutdown();
             EnableAndHighlightButtons(null, true);
             SetButtonStateAndColor(m_DisconnectButton, false, false);
@@ -84,6 +94,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         void QuitScene()
         {
+            // Sal del modo de juego y regresa a la selección de escena.
             Disconnect();
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.LoadScene(m_SelectionScreenSceneName, LoadSceneMode.Single);
@@ -94,6 +105,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
             SceneManager.sceneLoaded -= OnSceneLoaded;
             if (loadedScene.name == m_SelectionScreenSceneName)
             {
+                // Si volvemos a la pantalla de selección, destruimos el NetworkManager existente.
                 if (NetworkManager.Singleton)
                 {
                     Destroy(NetworkManager.Singleton.gameObject);
@@ -103,6 +115,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         void OnAddressChanged(ChangeEvent<string> evt)
         {
+            // Se llama cuando el usuario cambia el campo de dirección IP.
             string newAddress = evt.newValue;
             ushort currentPort = ushort.Parse(m_PortInputField.value);
 
@@ -118,6 +131,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         void OnPortChanged(ChangeEvent<string> evt)
         {
+            // Se llama cuando el usuario cambia el campo de puerto.
             if (!ushort.TryParse(evt.newValue, out ushort newPort) || !NetworkEndpoint.TryParse(m_AddressInputField.value, newPort, out NetworkEndpoint networkEndPoint))
             {
                 Debug.LogError($"Port '{evt.newValue}' is not valid. Reverting port to {k_DefaultPort}");
@@ -130,6 +144,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         static void SetNetworkPortAndAddress(ushort port, string address, string serverListenAddress)
         {
+            // Actualiza el transporte de red con la dirección y puerto donde la sesión debe escucharse/conectarse.
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
             if (transport == null) //happens during Play Mode Tests
             {
@@ -141,6 +156,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 
         void EnableAndHighlightButtons(Button buttonToHighlight, bool enable)
         {
+            // Habilita o deshabilita los botones de arranque y resalta uno de ellos si es necesario.
             foreach (var button in m_Buttons)
             {
                 SetButtonStateAndColor(button, button == buttonToHighlight, enable);

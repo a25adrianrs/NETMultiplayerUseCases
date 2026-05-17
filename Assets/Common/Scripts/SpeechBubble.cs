@@ -10,11 +10,22 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
     /// </summary>
     public class SpeechBubble : MonoBehaviour
     {
+        // Sprite que sirve como fondo del globo de texto.
         [SerializeField] SpriteRenderer m_BackgroundSprite;
+
+        // Texto que se muestra dentro del globo.
         [SerializeField] TMP_Text m_MessageLabel;
+
+        // Espacio extra alrededor del texto para el tamaño del fondo.
         [SerializeField] Vector2 m_Padding;
+
+        // Número máximo de caracteres por línea antes de hacer un salto de línea.
         [SerializeField] int m_MaxCharactersPerLine = 20;
+
+        // Mensaje inicial que se muestra si se activa en Start.
         [SerializeField] string m_DefaultMessage;
+
+        // Decide si el globo se configura automáticamente al iniciar la escena.
         [SerializeField] bool m_SetupOnStart;
 
         void Start()
@@ -31,9 +42,12 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         /// <param name="text"></param>
         public void Setup(string text)
         {
+            // Muestra el globo de texto y actualiza su contenido.
             gameObject.SetActive(true);
             m_MessageLabel.SetText(WordWrap(text, m_MaxCharactersPerLine));
             m_MessageLabel.ForceMeshUpdate();
+
+            // Ajusta el tamaño del fondo al texto renderizado más el padding.
             Vector2 textSize = m_MessageLabel.GetRenderedValues(false);
             m_BackgroundSprite.size = textSize + m_Padding;
         }
@@ -69,7 +83,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
                     next = lineEndingIndex + Environment.NewLine.Length;
                 }
 
-                // Copy this line of text, breaking into smaller lines as needed
+                // Copia cada línea del texto, rompiéndola si es demasiado larga.
                 if (lineEndingIndex > position)
                 {
                     do
@@ -82,7 +96,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
                         sb.Append(text, position, lineLentgh);
                         sb.Append(Environment.NewLine);
 
-                        // Trim whitespace following break
+                        // Elimina espacios en blanco al inicio de la siguiente línea.
                         position += lineLentgh;
                         while (position < lineEndingIndex && Char.IsWhiteSpace(text[position]))
                         {
@@ -108,26 +122,26 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         /// <returns>The modified line length</returns>
         static int BreakLine(string text, int pos, int max)
         {
-            // Find last whitespace in line
+            // Busca el último espacio en blanco dentro del rango permitido.
             int i = max;
             while (i >= 0 && !Char.IsWhiteSpace(text[pos + i]))
             {
                 i--;
             }
 
-            // If no whitespace found, break at maximum length
+            // Si no hay espacio en blanco, rompe la línea en el máximo permitido.
             if (i < 0)
             {
                 return max;
             }
 
-            // Find start of whitespace
+            // Retrocede hasta el primer carácter no blanco antes del espacio.
             while (i >= 0 && Char.IsWhiteSpace(text[pos + i]))
             {
                 i--;
             }
 
-            // Return length of text before whitespace
+            // Devuelve la longitud de texto antes del espacio detectado.
             return i + 1;
         }
 
