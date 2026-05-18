@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
 {
     /// <summary>
-    /// Manages the color of a Networked object
+    /// Gestiona el color de un objeto en red
     /// </summary>
     public class ColorManager : NetworkBehaviour
     {

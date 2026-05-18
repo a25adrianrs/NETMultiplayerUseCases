@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
 {
     /// <summary>
-    /// Keeps an object at a certain offset from another one
+    /// Mantiene un objeto en un cierto offset respecto a otro
     /// </summary>
     public class PositionOffsetKeeper : MonoBehaviour
     {

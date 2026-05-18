@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.NetVarVsRpc
 {
     /// <summary>
-    /// Manages the color of a Networked object
+    /// Gestiona el color de un objeto en red
     /// </summary>
     public class ColorManager : NetworkBehaviour
     {
@@ -66,7 +66,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetVarVsRpc
         {
             if (!IsClient)
             {
-                /* note: this script solo hace lógica en el cliente.
+                /* nota: este script solo ejecuta lógica en el cliente.
                  * Se detiene temprano para no ejecutar código innecesario en el servidor.
                  */
                 return;

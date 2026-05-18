@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
 {
     /// <summary>
-    /// Informs about the proximity status of the local player
+    /// Informa sobre el estado de proximidad del jugador local
     /// </summary>
     public class ProximityChecker : MonoBehaviour
     {

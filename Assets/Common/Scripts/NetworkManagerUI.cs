@@ -12,7 +12,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
     public class NetworkManagerUI : MonoBehaviour
     {
         const string k_DefaultIP = "127.0.0.1";
-        const string k_DefaultServerListenAddress = "0.0.0.0"; //note: this is not safe for real world usage and would limit you to IPv4-only addresses, but this goes out the scope of this sample.
+        const string k_DefaultServerListenAddress = "0.0.0.0"; // nota: esto no es seguro para uso en el mundo real y limitaría a direcciones solo IPv4; sale del alcance de este ejemplo.
         const ushort k_DefaultPort = 7979;
 
         // Raíz del documento UI que contiene todos los elementos de la ventana.

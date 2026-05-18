@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.NetVarVsRpc
 {
     /// <summary>
-    /// Toggles an object when the local player is close enough
+    /// Activa/desactiva un objeto cuando el jugador local está lo suficientemente cerca
     /// </summary>
     public class ProximityTrigger : MonoBehaviour
     {

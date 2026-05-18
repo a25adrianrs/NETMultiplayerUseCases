@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.SelectionScreen
 {
     /// <summary>
-    /// Allows to select a scene in the SelectionScene
+    /// Permite seleccionar una escena en la pantalla de selección
     /// </summary>
     internal class SceneSelectionElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

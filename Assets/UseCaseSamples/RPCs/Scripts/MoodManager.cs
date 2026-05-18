@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
 {
     /// <summary>
-    /// Manages the mood of a player or NPC
+    /// Gestiona el estado de humor de un jugador o NPC
     /// </summary>
     public class MoodManager : NetworkBehaviour
     {

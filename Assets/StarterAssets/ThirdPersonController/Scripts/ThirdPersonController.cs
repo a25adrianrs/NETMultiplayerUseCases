@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-/* Note: animations are called via the controller for both the character and capsule using animator null checks
+/* Nota: las animaciones se llaman vía el controlador tanto para el personaje como para la cápsula usando comprobaciones nulas del animator
  */
 
 namespace StarterAssets

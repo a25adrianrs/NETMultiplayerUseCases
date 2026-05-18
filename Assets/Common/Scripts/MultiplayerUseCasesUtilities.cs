@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 {
     /// <summary>
-    /// A class of utilities used across UseCases
+    /// Clase de utilidades usada en los diferentes UseCases
     /// </summary>
     public static class MultiplayerUseCasesUtilities
     {
@@ -14,21 +14,21 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         static readonly string[] s_Usernames = new string[] { "MaryDaBest", "BobTheBell", "FranklyVal", "Georgie96", "OP Morgan", "AdrianR", "EsterColero", "PixelKnight", "ShadowCoder", "NovaRunner", "IronPanda" };
 
         /// <summary>
-        /// Generates a random color
+        /// Genera un color aleatorio
         /// </summary>
-        /// <returns>A random RGBA color</returns>
+        /// <returns>Un color RGBA aleatorio</returns>
         public static Color32 GetRandomColor() => new Color32((byte)UnityEngine.Random.Range(0, 256), (byte)UnityEngine.Random.Range(0, 256), (byte)UnityEngine.Random.Range(0, 256), 255);
 
         /// <summary>
-        /// Returns a random username from a fixed list.
+        /// Devuelve un nombre de usuario aleatorio de una lista fija.
         /// </summary>
         public static string GetRandomUsername() => s_Usernames[UnityEngine.Random.Range(0, s_Usernames.Length)];
 
         /// <summary>
-        /// Filters some 'bad words' from a string. In a production environment, consider using an external service for complex tasks like this. Players can be quite imaginative creating workarounds for those types of filters, using a library or service abstracting that complexity away is usually more strategic.
+        /// Filtra algunas "palabras malsonantes" de una cadena. En un entorno de producción, considere usar un servicio externo para tareas complejas como esta. Los jugadores pueden ingeniar formas de evitar filtros sencillos; usar una librería o servicio especializado suele ser más recomendable.
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="input">Texto de entrada</param>
+        /// <returns>Texto con las palabras filtradas</returns>
         public static string FilterBadWords(string input)
         {
             Regex regex = new Regex(@"\b(\w+)\b", RegexOptions.Compiled);

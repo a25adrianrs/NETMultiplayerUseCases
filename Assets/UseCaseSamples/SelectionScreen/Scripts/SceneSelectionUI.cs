@@ -13,7 +13,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.SelectionScreen
     }
 
     /// <summary>
-    /// An UI that allows players to pick a scene to load
+    /// Una interfaz que permite a los jugadores elegir una escena para cargar
     /// </summary>
     internal class SceneSelectionUI : MonoBehaviour
     {

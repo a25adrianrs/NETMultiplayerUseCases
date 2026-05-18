@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.RPC
 {
     /// <summary>
-    /// Manages how a player will be spawned
+    /// Gestiona cómo se instanciará un jugador
     /// </summary>
     class PlayerSpawnManager : NetworkBehaviour
     {

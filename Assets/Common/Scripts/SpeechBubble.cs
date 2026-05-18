@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 {
     /// <summary>
-    /// Shows text in the form of a speech bubble
+    /// Muestra texto en forma de globo de diálogo
     /// </summary>
     public class SpeechBubble : MonoBehaviour
     {
@@ -37,9 +37,9 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         }
 
         /// <summary>
-        /// Shows some text in the bubble
+        /// Muestra texto en el globo
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">Texto a mostrar</param>
         public void Setup(string text)
         {
             // Muestra el globo de texto y actualiza su contenido.
@@ -53,13 +53,12 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         }
 
         /// <summary>
-        /// Word wraps the given text to fit within the specified width.
+        /// Ajusta el texto para que quepa dentro del ancho especificado.
         /// </summary>
-        /// <param name="text">Text to be word wrapped</param>
-        /// <param name="width">Width, in characters, to which the text
-        /// should be word wrapped</param>
-        /// <returns>The modified text</returns>
-        /// <remarks>Based on: https://www.codeproject.com/Articles/51488/Implementing-Word-Wrap-in-C </remarks>
+        /// <param name="text">Texto a ajustar</param>
+        /// <param name="width">Ancho, en caracteres, al que ajustar el texto</param>
+        /// <returns>El texto modificado</returns>
+        /// <remarks>Basado en: https://www.codeproject.com/Articles/51488/Implementing-Word-Wrap-in-C </remarks>
         static string WordWrap(string text, int width)
         {
             if (width < 1)
@@ -113,13 +112,12 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         }
 
         /// <summary>
-        /// Locates position to break the given line so as to avoid
-        /// breaking words.
+        /// Busca la posición para romper la línea evitando partir palabras.
         /// </summary>
-        /// <param name="text">String that contains line of text</param>
-        /// <param name="pos">Index where line of text starts</param>
-        /// <param name="max">Maximum line length</param>
-        /// <returns>The modified line length</returns>
+        /// <param name="text">Cadena que contiene la línea de texto</param>
+        /// <param name="pos">Índice donde comienza la línea</param>
+        /// <param name="max">Longitud máxima de la línea</param>
+        /// <returns>La longitud de la línea modificada</returns>
         static int BreakLine(string text, int pos, int max)
         {
             // Busca el último espacio en blanco dentro del rango permitido.

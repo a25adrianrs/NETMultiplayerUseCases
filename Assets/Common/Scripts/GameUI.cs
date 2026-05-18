@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 {
     /// <summary>
-    /// Manages the UI of the "NetworkVariable vs RPCs" scene
+    /// Gestiona la interfaz de usuario de la escena "NetworkVariable vs RPCs"
     /// </summary>
     public class GameUI : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 {
     /// <summary>
-    /// A generic player manager that manages the lifecycle of a player
+    /// Gestor genérico que administra el ciclo de vida de un jugador
     /// </summary>
     public class PlayerManager : NetworkBehaviour
     {

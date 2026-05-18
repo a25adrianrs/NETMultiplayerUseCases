@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.Proximity
 {
     /// <summary>
-    /// Manages the color of a Networked object
+    /// Gestiona el color de un objeto en red
     /// </summary>
     public class ColorManager : NetworkBehaviour
     {

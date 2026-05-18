@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
 {
     /// <summary>
-    /// A complex data structure. Can only contain the types listed here: https://docs-multiplayer.unity3d.com/netcode/current/basics/networkvariable/index.html#supported-types
+    /// Una estructura de datos compleja. Solo puede contener los tipos listados aquí: https://docs-multiplayer.unity3d.com/netcode/current/basics/networkvariable/index.html#supported-types
     /// </summary>
     struct SyncableCustomData : INetworkSerializable
     {
@@ -25,7 +25,7 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.NetworkVariables
     }
 
     /// <summary>
-    /// Manages the data of a character
+    /// Gestiona los datos de un personaje
     /// </summary>
     public class CharacterManager : NetworkBehaviour
     {

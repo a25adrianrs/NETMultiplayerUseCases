@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 {
     /// <summary>
-    /// An utility class for common UIElements setup method
+    /// Clase utilitaria para métodos comunes de configuración de UIElements
     /// </summary>
     public static class UIElementsUtils
     {
@@ -17,9 +17,9 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         static readonly string k_UIFilesPathInTemplate = Path.Combine("Assets", Path.Combine("Editor", "UI"));
 
         /// <summary>
-        /// Loads an UXML file from an editor folder
+        /// Carga un archivo UXML desde una carpeta del editor
         /// </summary>
-        /// <param name="fileName">The name fo the file to load</param>
+        /// <param name="fileName">Nombre del archivo a cargar</param>
         /// <returns></returns>
         public static VisualTreeAsset LoadUXML(string fileName)
         {
@@ -29,16 +29,16 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
 #endif
 
         /// <summary>
-        /// Initializes a Button
+        /// Inicializa un Button
         /// </summary>
-        /// <param name="buttonName">Name of the button in the document</param>
-        /// <param name="onClickAction">method to execute on click</param>
-        /// <param name="isEnabled">Is the button enabled?</param>
-        /// <param name="parent">Parent of the button</param>
-        /// <param name="text">Text to display on the button</param>
-        /// <param name="tooltip">Tooltip of the button</param>
-        /// <param name="showIfEnabled">Enables the element if it supposed to be enabled</param>
-        /// <returns>The initialized button</returns>
+        /// <param name="buttonName">Nombre del botón en el documento</param>
+        /// <param name="onClickAction">Método a ejecutar al hacer click</param>
+        /// <param name="isEnabled">¿El botón está habilitado?</param>
+        /// <param name="parent">Elemento padre del botón</param>
+        /// <param name="text">Texto a mostrar en el botón</param>
+        /// <param name="tooltip">Tooltip del botón</param>
+        /// <param name="showIfEnabled">Muestra el elemento si debe estar habilitado</param>
+        /// <returns>El botón inicializado</returns>
         public static Button SetupButton(string buttonName, Action onClickAction, bool isEnabled, VisualElement parent, string text = "", string tooltip = "", bool showIfEnabled = true)
         {
             // Busca el botón en el documento UI por su nombre y lo configura.
@@ -58,15 +58,15 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         }
 
         /// <summary>
-        /// Initializes an EnumField
+        /// Inicializa un EnumField
         /// </summary>
-        /// <typeparam name="T">Type of the values in the EnumField</typeparam>
-        /// <param name="enumName">Name of the EnumField in the document</param>
-        /// <param name="text">Text to display on the EnumField's label</param>
-        /// <param name="onValueChanged">method to execute when the vlaue of EnumField changes</param>
-        /// <param name="parent">Parent of the EnumField</param>
-        /// <param name="defaultValue">Default vlaue of the Enumfield</param>
-        /// <returns>The initialized EnumField</returns>
+        /// <typeparam name="T">Tipo de los valores en el EnumField</typeparam>
+        /// <param name="enumName">Nombre del EnumField en el documento</param>
+        /// <param name="text">Texto para la etiqueta del EnumField</param>
+        /// <param name="onValueChanged">Método a ejecutar cuando cambia el valor</param>
+        /// <param name="parent">Elemento padre del EnumField</param>
+        /// <param name="defaultValue">Valor por defecto del EnumField</param>
+        /// <returns>El EnumField inicializado</returns>
         public static EnumField SetupEnumField<T>(string enumName, string text, EventCallback<ChangeEvent<Enum>> onValueChanged, VisualElement parent, T defaultValue) where T : Enum
         {
             // Busca y configura un campo de Enum en la UI.
@@ -79,15 +79,15 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         }
 
         /// <summary>
-        /// Initializes a Toggle
+        /// Inicializa un Toggle
         /// </summary>
-        /// <param name="name">Name of the toggle</param>
-        /// <param name="label">Text of the toggle's label</param>
-        /// <param name="text">Text of the toggle</param>
-        /// <param name="defaultValue">Default value of the toggle</param>
-        /// <param name="onValueChanged">Method to call when the value of the toggle changes</param>
-        /// <param name="parent">Parent of the toggle</param>
-        /// <returns>The initializedToggle</returns>
+        /// <param name="name">Nombre del toggle</param>
+        /// <param name="label">Texto de la etiqueta del toggle</param>
+        /// <param name="text">Texto del toggle</param>
+        /// <param name="defaultValue">Valor por defecto del toggle</param>
+        /// <param name="onValueChanged">Método a llamar cuando cambia el valor</param>
+        /// <param name="parent">Elemento padre del toggle</param>
+        /// <returns>El Toggle inicializado</returns>
         public static Toggle SetupToggle(string name, string label, string text, bool defaultValue, EventCallback<ChangeEvent<bool>> onValueChanged, VisualElement parent)
         {
             Toggle uxmlField = parent.Q<Toggle>(name);
@@ -100,13 +100,13 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         }
 
         /// <summary>
-        /// Initializes an IntegerField
+        /// Inicializa un IntegerField
         /// </summary>
-        /// <param name="name">Name of the IntegerField</param>
-        /// <param name="value">Start value of the IntegerField</param>
-        /// <param name="onValueChanged">Method to call when the value changes</param>
-        /// <param name="parent">Parent of the IntegerField</param>
-        /// <returns>The initialized IntegerField</returns>
+        /// <param name="name">Nombre del IntegerField</param>
+        /// <param name="value">Valor inicial del IntegerField</param>
+        /// <param name="onValueChanged">Método a llamar cuando cambia el valor</param>
+        /// <param name="parent">Elemento padre del IntegerField</param>
+        /// <returns>El IntegerField inicializado</returns>
         public static IntegerField SetupIntegerField(string name, int value, EventCallback<ChangeEvent<int>> onValueChanged, VisualElement parent)
         {
             IntegerField uxmlField = parent.Q<IntegerField>(name);
@@ -117,14 +117,14 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         }
 
         /// <summary>
-        /// Initializes an StringField
+        /// Inicializa un StringField
         /// </summary>
-        /// <param name="name">Name of the StringField</param>
-        /// <param name="label">Text of the StringField's label</param>
-        /// <param name="value">Start value of the StringField</param>
-        /// <param name="onValueChanged">Method to call when the value changes</param>
-        /// <param name="parent">Parent of the StringField</param>
-        /// <returns>The initialized StringField</returns>
+        /// <param name="name">Nombre del StringField</param>
+        /// <param name="label">Texto de la etiqueta del StringField</param>
+        /// <param name="value">Valor inicial del StringField</param>
+        /// <param name="onValueChanged">Método a llamar cuando cambia el valor</param>
+        /// <param name="parent">Elemento padre del StringField</param>
+        /// <returns>El StringField inicializado</returns>
         public static TextField SetupStringField(string name, string label, string value, EventCallback<ChangeEvent<string>> onValueChanged, VisualElement parent)
         {
             TextField uxmlField = parent.Q<TextField>(name);
@@ -136,18 +136,18 @@ namespace Unity.Netcode.Samples.MultiplayerUseCases.Common
         }
 
         /// <summary>
-        /// Makes a visual element invisible
+        /// Hace invisible un elemento visual
         /// </summary>
-        /// <param name="element">The element</param>
+        /// <param name="element">El elemento</param>
         public static void Hide(VisualElement element)
         {
             element.style.display = DisplayStyle.None;
         }
 
         /// <summary>
-        /// Makes a visual element visible
+        /// Hace visible un elemento visual
         /// </summary>
-        /// <param name="element">The element</param>
+        /// <param name="element">El elemento</param>
         public static void Show(VisualElement element)
         {
             element.style.display = DisplayStyle.Flex;
